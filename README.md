@@ -1,9 +1,9 @@
-# MOD BENCH
+# MOD BENCH 🔧
 
-A workshop-manual style page whose whole gimmick is that it's moddable —
-knobs, toggles, and a chaos button rewrite the page's CSS variables live,
-a spec sheet tracks what you've changed from factory settings, the headline
-is editable, and clicking the specimen slaps stickers on it.
+A little page that arrives unscrewed on purpose.
 
-Test fixture for `playground decentralize --path` (multi-file: index.html,
-style.css, mod.js, README.md).
+Turn the knobs. Flip the lamps. Press ⚡ CHAOS and apologize to no one.
+The headline is yours to rewrite, the stickers are yours to slap,
+and the spec sheet quietly takes notes on everything you've done.
+
+No warranty. The warranty was never real. Mod away.
