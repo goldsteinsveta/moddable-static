@@ -1,0 +1,465 @@
+/* ============================================================
+   MOD BENCH — workshop-manual zine.
+   Warm paper, ink, one safety accent. Everything that can be
+   modded lives in a custom property on :root.
+   ============================================================ */
+
+:root {
+    /* —— moddable knobs (mod.js writes these) —— */
+    --accent-h: 22;
+    --tilt: -2deg;
+    --headline-weight: 640;
+    --headline-size: 1; /* multiplier */
+    --wonk: 1;
+
+    /* —— fixed palette —— */
+    --paper: #f4eddd;
+    --paper-deep: #e9dfc8;
+    --ink: #211d16;
+    --ink-soft: #5c5547;
+    --accent: hsl(var(--accent-h) 82% 46%);
+    --accent-ink: hsl(var(--accent-h) 85% 32%);
+    --line: 1.5px solid var(--ink);
+}
+
+body.night {
+    --paper: #211d16;
+    --paper-deep: #2c271d;
+    --ink: #f4eddd;
+    --ink-soft: #b3a890;
+    --accent: hsl(var(--accent-h) 88% 60%);
+    --accent-ink: hsl(var(--accent-h) 90% 70%);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 14px;
+    line-height: 1.55;
+    transition: background 0.35s ease, color 0.35s ease;
+    overflow-x: hidden;
+}
+
+/* paper grain */
+.grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+}
+body.night .grain {
+    mix-blend-mode: screen;
+    opacity: 0.35;
+}
+
+code {
+    background: var(--paper-deep);
+    border: 1px solid var(--ink-soft);
+    padding: 0.05em 0.35em;
+    border-radius: 3px;
+    font-size: 0.92em;
+}
+
+/* ============ masthead ============ */
+.masthead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.7rem 1.4rem;
+    border-bottom: var(--line);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+}
+.masthead-title {
+    font-family: "Fraunces", serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.25em;
+    color: var(--accent-ink);
+}
+.masthead-note {
+    color: var(--ink-soft);
+}
+
+/* ============ layout ============ */
+.bench {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr);
+    gap: 2rem;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 2.5rem 1.4rem 3rem;
+    align-items: start;
+}
+@media (max-width: 880px) {
+    .bench {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============ specimen ============ */
+.specimen {
+    position: relative;
+    border: var(--line);
+    border-style: dashed;
+    padding: 2.2rem 2rem 2.6rem;
+    min-height: 60vh;
+    cursor: crosshair;
+    background:
+        linear-gradient(var(--paper-deep) 1px, transparent 1px) 0 0 / 100% 2.2rem;
+}
+
+.regmark {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+}
+.regmark::before,
+.regmark::after {
+    content: "";
+    position: absolute;
+    background: var(--ink);
+}
+.regmark::before {
+    left: 50%;
+    top: -4px;
+    bottom: -4px;
+    width: 1.5px;
+    transform: translateX(-50%);
+}
+.regmark::after {
+    top: 50%;
+    left: -4px;
+    right: -4px;
+    height: 1.5px;
+    transform: translateY(-50%);
+}
+.regmark.tl { top: 10px; left: 10px; }
+.regmark.br { bottom: 10px; right: 10px; }
+
+.specimen-eyebrow {
+    margin: 0 0 1.4rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-soft);
+}
+
+.headline {
+    font-family: "Fraunces", serif;
+    font-optical-sizing: none;
+    font-variation-settings:
+        "opsz" 144,
+        "wght" var(--headline-weight),
+        "SOFT" 0,
+        "WONK" var(--wonk);
+    font-size: calc(clamp(2.6rem, 7vw, 5.2rem) * var(--headline-size));
+    line-height: 0.98;
+    margin: 0 0 1.8rem;
+    color: var(--accent);
+    transform: rotate(var(--tilt));
+    transform-origin: left bottom;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    outline: none;
+    cursor: text;
+    text-wrap: balance;
+}
+.headline:focus {
+    text-decoration: underline wavy var(--accent-ink) 2px;
+    text-underline-offset: 0.18em;
+}
+
+.specimen-copy {
+    max-width: 44ch;
+    margin: 0 0 1rem;
+    color: var(--ink);
+}
+.specimen-copy.small {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+}
+
+/* slapped stickers */
+.sticker {
+    position: absolute;
+    transform: translate(-50%, -50%) rotate(var(--r, -6deg)) scale(1);
+    font-family: "Fraunces", serif;
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+    padding: 0.2em 0.6em;
+    border: 2px solid var(--accent-ink);
+    border-radius: 999px;
+    color: var(--accent-ink);
+    background: var(--paper);
+    pointer-events: none;
+    user-select: none;
+    animation: slap 0.3s cubic-bezier(0.34, 1.8, 0.64, 1) both;
+    box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.18);
+}
+@keyframes slap {
+    from {
+        transform: translate(-50%, -50%) rotate(var(--r, -6deg)) scale(2.4);
+        opacity: 0;
+    }
+}
+
+/* ============ control panel ============ */
+.panel {
+    position: sticky;
+    top: 1.2rem;
+    border: var(--line);
+    background: var(--paper-deep);
+    box-shadow: 5px 6px 0 rgba(0, 0, 0, 0.22);
+    padding: 0 1.1rem 1.1rem;
+}
+
+.panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 -1.1rem 1rem;
+    padding: 0.55rem 1.1rem;
+    border-bottom: var(--line);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    font-weight: 600;
+}
+.mods-badge {
+    border: 1.5px solid var(--accent-ink);
+    color: var(--accent-ink);
+    border-radius: 999px;
+    padding: 0.1em 0.7em;
+    font-weight: 600;
+}
+.mods-badge b {
+    font-weight: 700;
+}
+
+/* knobs */
+.knob-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-bottom: 1.1rem;
+}
+.knob-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+}
+.knob {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    background:
+        radial-gradient(circle at 35% 30%, var(--paper), var(--paper-deep) 70%);
+    position: relative;
+    cursor: ns-resize;
+    touch-action: none;
+    box-shadow:
+        inset 0 -3px 0 rgba(0, 0, 0, 0.15),
+        2px 3px 0 rgba(0, 0, 0, 0.18);
+}
+.knob:focus-visible {
+    outline: 2px dashed var(--accent-ink);
+    outline-offset: 3px;
+}
+.knob-indicator {
+    position: absolute;
+    left: 50%;
+    top: 4px;
+    width: 3px;
+    height: 16px;
+    margin-left: -1.5px;
+    background: var(--accent-ink);
+    border-radius: 2px;
+    transform-origin: 50% 25px;
+    transform: rotate(var(--angle, 0deg));
+}
+.knob-unit output {
+    color: var(--ink-soft);
+    font-size: 0.7rem;
+}
+
+/* size slider */
+.slider-unit {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 1.1rem;
+}
+.slider-unit input {
+    flex: 1;
+    appearance: none;
+    height: 4px;
+    background: var(--ink);
+    border-radius: 2px;
+    cursor: ew-resize;
+}
+.slider-unit input::-webkit-slider-thumb {
+    appearance: none;
+    width: 18px;
+    height: 26px;
+    border-radius: 4px;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    box-shadow: 1px 2px 0 rgba(0, 0, 0, 0.25);
+}
+.slider-unit output {
+    width: 3.2em;
+    text-align: right;
+    color: var(--ink-soft);
+}
+
+/* toggles */
+.toggle-row {
+    display: flex;
+    gap: 0.7rem;
+    margin-bottom: 1.1rem;
+}
+.toggle {
+    flex: 1;
+    font: inherit;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    padding: 0.5rem 0.4rem;
+    border: 2px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.18);
+    transition: transform 0.08s ease;
+}
+.toggle:active {
+    transform: translate(1px, 2px);
+    box-shadow: none;
+}
+.lamp {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    background: transparent;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+.toggle[aria-pressed="true"] .lamp {
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+}
+
+/* big buttons */
+.big-buttons {
+    display: grid;
+    gap: 0.55rem;
+    margin-bottom: 1.1rem;
+}
+.chaos,
+.reset {
+    font: inherit;
+    letter-spacing: 0.14em;
+    padding: 0.65rem;
+    cursor: pointer;
+    border: 2px solid var(--ink);
+    box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.22);
+    transition: transform 0.08s ease;
+}
+.chaos {
+    background: var(--accent);
+    color: var(--paper);
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+.reset {
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 0.7rem;
+}
+.chaos:active,
+.reset:active {
+    transform: translate(2px, 3px);
+    box-shadow: none;
+}
+
+/* spec sheet */
+.spec {
+    border-top: var(--line);
+    padding-top: 0.8rem;
+    font-size: 0.7rem;
+}
+.spec-head {
+    letter-spacing: 0.16em;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+.spec-sub {
+    color: var(--accent-ink);
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    float: right;
+}
+.spec table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.spec td {
+    padding: 0.18rem 0;
+    border-bottom: 1px dotted var(--ink-soft);
+    color: var(--ink-soft);
+}
+.spec td:last-child {
+    text-align: right;
+    color: var(--ink);
+}
+.spec tr.modded td {
+    color: var(--accent-ink);
+    font-weight: 600;
+}
+
+/* ============ colophon ============ */
+.colophon {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.7rem 1.4rem 1.2rem;
+    border-top: var(--line);
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+}
+
+/* chaos shake */
+@keyframes shake {
+    10% { transform: translate(-4px, 2px) rotate(-0.4deg); }
+    30% { transform: translate(5px, -3px) rotate(0.5deg); }
+    50% { transform: translate(-5px, -2px) rotate(-0.3deg); }
+    70% { transform: translate(4px, 3px) rotate(0.4deg); }
+    90% { transform: translate(-2px, 1px) rotate(-0.2deg); }
+}
+body.shaking {
+    animation: shake 0.45s linear;
+}

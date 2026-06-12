@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>MOD BENCH — a moddable page</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,0..100,0..1&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="grain" aria-hidden="true"></div>
+
+        <header class="masthead">
+            <span class="masthead-id">UNIT № 002</span>
+            <span class="masthead-title">MOD&nbsp;BENCH</span>
+            <span class="masthead-note">field-serviceable web page · no warranty void</span>
+        </header>
+
+        <main class="bench">
+            <!-- ============ SPECIMEN ============ -->
+            <section class="specimen" id="specimen" aria-label="The page being modded">
+                <div class="regmark tl" aria-hidden="true"></div>
+                <div class="regmark br" aria-hidden="true"></div>
+
+                <p class="specimen-eyebrow">fig. 1 — the specimen (click anywhere to slap a sticker)</p>
+
+                <h1 class="headline" id="headline" contenteditable="true" spellcheck="false">
+                    THIS PAGE IS<br />MODDABLE
+                </h1>
+
+                <p class="specimen-copy">
+                    Everything on this bench is held together with CSS variables
+                    instead of screws. Grab a knob on the control panel — the
+                    headline tilts, the ink changes, the letters go wonky.
+                    The headline itself is editable: click it and type.
+                </p>
+
+                <p class="specimen-copy small">
+                    That's the whole point of the playground: apps published with
+                    <code>--moddable</code> can be cloned and remixed by anyone with
+                    <code>playground mod</code>. This page just lets you start
+                    modding before you've even cloned it.
+                </p>
+            </section>
+
+            <!-- ============ CONTROL PANEL ============ -->
+            <aside class="panel" aria-label="Mod control panel">
+                <div class="panel-head">
+                    <span>CONTROL PANEL</span>
+                    <span class="mods-badge">MODS: <b id="modCount">0</b></span>
+                </div>
+
+                <div class="knob-row">
+                    <div class="knob-unit">
+                        <div class="knob" id="knob-hue" tabindex="0" role="slider"
+                             aria-label="Accent hue" aria-valuemin="0" aria-valuemax="360">
+                            <div class="knob-indicator"></div>
+                        </div>
+                        <label>HUE</label>
+                        <output id="out-hue">22</output>
+                    </div>
+                    <div class="knob-unit">
+                        <div class="knob" id="knob-tilt" tabindex="0" role="slider"
+                             aria-label="Headline tilt" aria-valuemin="-8" aria-valuemax="8">
+                            <div class="knob-indicator"></div>
+                        </div>
+                        <label>TILT</label>
+                        <output id="out-tilt">-2°</output>
+                    </div>
+                    <div class="knob-unit">
+                        <div class="knob" id="knob-weight" tabindex="0" role="slider"
+                             aria-label="Headline weight" aria-valuemin="100" aria-valuemax="900">
+                            <div class="knob-indicator"></div>
+                        </div>
+                        <label>WEIGHT</label>
+                        <output id="out-weight">640</output>
+                    </div>
+                </div>
+
+                <div class="slider-unit">
+                    <label for="slider-size">SIZE</label>
+                    <input type="range" id="slider-size" min="60" max="150" value="100" />
+                    <output id="out-size">100%</output>
+                </div>
+
+                <div class="toggle-row">
+                    <button class="toggle" id="toggle-wonk" aria-pressed="true">
+                        <span class="lamp"></span> WONK
+                    </button>
+                    <button class="toggle" id="toggle-ink" aria-pressed="false">
+                        <span class="lamp"></span> NIGHT&nbsp;INK
+                    </button>
+                </div>
+
+                <div class="big-buttons">
+                    <button class="chaos" id="btn-chaos">⚡ CHAOS</button>
+                    <button class="reset" id="btn-reset">RESET TO FACTORY</button>
+                </div>
+
+                <!-- spec sheet -->
+                <div class="spec" aria-label="Live spec sheet">
+                    <div class="spec-head">SPEC SHEET <span class="spec-sub">● = modded</span></div>
+                    <table id="specTable">
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </aside>
+        </main>
+
+        <footer class="colophon">
+            <span>deployed from a local folder · <code>playground decentralize --path</code></span>
+            <span>4 files · index.html / style.css / mod.js / your fingerprints</span>
+        </footer>
+
+        <script src="mod.js"></script>
+    </body>
+</html>
